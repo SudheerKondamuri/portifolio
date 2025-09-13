@@ -32,18 +32,23 @@ class _DemoState extends State<Demo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _controller.value.isInitialized
-          ? SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _controller.value.size.width,
-                  height: _controller.value.size.height,
-                  child: VideoPlayer(_controller),
-                ),
-              ),
-            )
-          : const Center(child: CircularProgressIndicator()),
+      body: Stack(
+        children: [
+          _controller.value.isInitialized
+              ? SizedBox.expand(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _controller.value.size.width,
+                      height: _controller.value.size.height,
+                      child: VideoPlayer(_controller),
+                    ),
+                  ),
+                )
+              : const Center(child: CircularProgressIndicator()),
+          Column(children: [SizedBox(child: Text("Hello"))]),
+        ],
+      ),
     );
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "369938283854",
+    "project_id": "sudheer-kondamuri",
+    "storage_bucket": "sudheer-kondamuri.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369938283854:android:6717bfab94737e6abdb21f",
+        "android_client_info": {
+          "package_name": "com.example.portifolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcBdct_RqZCCzIDCnL6tgIuS3HswxuDD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
