@@ -1,16 +1,13 @@
-# portifolio
+# 🌟 Sudheer Kondamuri - Developer Portfolio
 
-A new Flutter project.
+Welcome to my official portfolio repository! This site is a showcase of my skills, experience, and the most exciting projects I've been working on as a **[Flutter dev]**.
 
-## Getting Started
+## 🔗 Live Site
 
-This project is a starting point for a Flutter application.
+You can view the live, deployed version of my portfolio here:
 
-A few resources to get you started if this is your first Flutter project:
+➡️ **[https://sudheer-kondamuri.web.app/](https://sudheer-kondamuri.web.app/)**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+*Note: Feel free to use the code as inspiration, but please do not copy the structure or design verbatim for your own portfolio without significant modification.*
