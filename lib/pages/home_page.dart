@@ -124,12 +124,17 @@ clear     - Clear the terminal
       case 'aboutme':
         return SelectableText(
           '''
-Hey I'm Sudheer Kondamuri, a passionate tech enthusiast exploring the realms of cybersecurity and software development.
-I love building creative apps, especially those that combine security, design, and interactivity.
-Currently, I’m deep-diving into Flutter to craft immersive mobile experiences.
-I enjoy solving challenges, learning new technologies, and pushing the limits of what apps can do.
-When I’m not coding, you’ll find me exploring cybersecurity concepts, gaming, or binge-watching tech shows.
-I aim to create projects that are not just functional but also visually engaging and secure.
+Hey, I’m Sudheer.
+
+I like building things end to end — from an idea to something that actually runs.
+Most of my work revolves around dapps, backend systems, and Web3 projects that I can break, fix, and improve over time.
+
+I learn by doing.
+If something doesn’t make sense or breaks, I dig until I understand why.
+
+This terminal is how I present my work.
+Projects show the rest.
+
 ''',
           style: GoogleFonts.ubuntuMono(
             fontWeight: FontWeight.w500,
@@ -403,92 +408,98 @@ I aim to create projects that are not just functional but also visually engaging
                       ),
                     ],
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.white, width: 0.8),
+                  child: SelectableRegion(
+                    selectionControls: MaterialTextSelectionControls(),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Icon(Icons.terminal, color: Colors.white),
-                            SelectableText(
-                              'sudheer@kali',
-                              style: GoogleFonts.ubuntuMono(
-                                fontWeight: FontWeight.w600,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
                                 color: Colors.white,
+                                width: 0.8,
                               ),
                             ),
-                            const Icon(Icons.close, color: Colors.white),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 15,
                           ),
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            itemCount: lines.length,
-                            itemBuilder: (context, index) {
-                              final line = lines[index];
-                              if (line.isActiveField) {
-                                return CustomTextfield(
-                                  controller: line.controller!,
-                                  onSubmitted: (value) =>
-                                      _handleSubmit(index, value),
-                                );
-                              } else if (line.isCommand) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 2,
-                                  ),
-                                  child: SelectableText(
-                                    "(sudheer@kali)-[~] \$ ${line.text}",
-                                    style: GoogleFonts.ubuntuMono(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                );
-                              } else if (line.widget != null) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 2,
-                                  ),
-                                  child: line.widget!,
-                                );
-                              } else {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 2,
-                                  ),
-                                  child: SelectableText(
-                                    line.text ?? "",
-                                    style: GoogleFonts.ubuntuMono(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Icon(Icons.terminal, color: Colors.white),
+                              SelectableText(
+                                'sudheer@kali',
+                                style: GoogleFonts.ubuntuMono(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Icon(Icons.close, color: Colors.white),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 15,
+                            ),
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: lines.length,
+                              itemBuilder: (context, index) {
+                                final line = lines[index];
+                                if (line.isActiveField) {
+                                  return CustomTextfield(
+                                    controller: line.controller!,
+                                    onSubmitted: (value) =>
+                                        _handleSubmit(index, value),
+                                  );
+                                } else if (line.isCommand) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 2,
+                                    ),
+                                    child: SelectableText(
+                                      "(sudheer@kali)-[~] \$ ${line.text}",
+                                      style: GoogleFonts.ubuntuMono(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                } else if (line.widget != null) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 2,
+                                    ),
+                                    child: line.widget!,
+                                  );
+                                } else {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 2,
+                                    ),
+                                    child: SelectableText(
+                                      line.text ?? "",
+                                      style: GoogleFonts.ubuntuMono(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
