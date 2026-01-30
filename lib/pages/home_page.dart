@@ -73,6 +73,12 @@ class _HomePageState extends State<HomePage> {
   void _handleSubmit(int index, String value) {
     setState(() {
       final line = lines[index];
+      // Dispose the old controller before replacing the line
+      if (line.controller != null) {
+        _controllers.remove(line.controller);
+        line.controller!.dispose();
+      }
+      
       lines[index] = TerminalLine(text: value, isCommand: true);
 
       Widget output = _getCommandOutput(value);
@@ -373,6 +379,14 @@ Projects show the rest.
       case 'banner':
         return _asciiBanner();
       case 'clear':
+        // Dispose old controllers from lines that will be replaced
+        for (final line in lines) {
+          if (line.controller != null && _controllers.contains(line.controller)) {
+            _controllers.remove(line.controller);
+            line.controller!.dispose();
+          }
+        }
+        
         final controller = TextEditingController();
         _controllers.add(controller);
         

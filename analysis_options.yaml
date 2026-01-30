@@ -25,6 +25,7 @@ linter:
     prefer_const_constructors: true
     prefer_const_literals_to_create_immutables: true
     prefer_const_declarations: true
+    # Enabled to discourage print() usage; we use debugPrint() instead which is better for Flutter
     avoid_print: true
     unnecessary_null_checks: true
     use_key_in_widget_constructors: true
