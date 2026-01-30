@@ -6,7 +6,7 @@ import 'package:portifolio/pages/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           selectionHandleColor: Colors.tealAccent, // draggable handles
         ),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
