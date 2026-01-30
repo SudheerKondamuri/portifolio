@@ -7,13 +7,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:portifolio/main.dart';
+import 'package:portifolio/pages/home_page.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   testWidgets('Portfolio app loads successfully', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    // Build the HomePage directly without Firebase initialization
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: HomePage(),
+      ),
+    );
 
     // Verify that the terminal welcome message is displayed.
     expect(find.text("Welcome to Sudheer's Terminal\n"), findsOneWidget);
@@ -24,7 +29,11 @@ void main() {
   });
 
   testWidgets('Terminal prompt accepts input', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: HomePage(),
+      ),
+    );
     
     // Find the TextField
     final textFieldFinder = find.byType(TextField);

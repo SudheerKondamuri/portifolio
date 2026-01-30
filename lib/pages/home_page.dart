@@ -373,16 +373,10 @@ Projects show the rest.
       case 'banner':
         return _asciiBanner();
       case 'clear':
+        final controller = TextEditingController();
+        _controllers.add(controller);
+        
         setState(() {
-          // Dispose old controllers except the current one
-          for (final controller in _controllers) {
-            controller.dispose();
-          }
-          _controllers.clear();
-          
-          final controller = TextEditingController();
-          _controllers.add(controller);
-          
           lines = [
             TerminalLine(text: "Welcome to Sudheer's Terminal"),
             TerminalLine(widget: _asciiBanner()),
@@ -469,7 +463,6 @@ Projects show the rest.
                   ),
                   child: SelectableRegion(
                     selectionControls: materialTextSelectionControls,
-                    focusNode: FocusNode(),
                     child: Column(
                       children: [
                         Container(
