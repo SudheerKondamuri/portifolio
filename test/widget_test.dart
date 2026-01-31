@@ -7,24 +7,36 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:portifolio/main.dart';
+import 'package:portifolio/pages/home_page.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('Portfolio app loads successfully', (WidgetTester tester) async {
+    // Build the HomePage directly without Firebase initialization
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: HomePage(),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that the terminal welcome message is displayed.
+    expect(find.text("Welcome to Sudheer's Terminal\n"), findsOneWidget);
+    expect(find.text("Type 'help' for assistance"), findsOneWidget);
+    
+    // Verify that the terminal prompt is displayed.
+    expect(find.text('(sudheer@kali)-[~] \$'), findsWidgets);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Terminal prompt accepts input', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: HomePage(),
+      ),
+    );
+    
+    // Find the TextField
+    final textFieldFinder = find.byType(TextField);
+    expect(textFieldFinder, findsOneWidget);
   });
 }

@@ -29,6 +29,7 @@ class TerminalLine {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
+  final List<TextEditingController> _controllers = [];
 
   List<TerminalLine> lines = [];
 
@@ -49,18 +50,35 @@ class _HomePageState extends State<HomePage> {
     lines.add(TerminalLine(text: "Welcome to Sudheer's Terminal\n"));
     lines.add(TerminalLine(widget: _asciiBanner()));
     lines.add(TerminalLine(text: "Type 'help' for assistance"));
+    final controller = TextEditingController();
+    _controllers.add(controller);
     lines.add(
       TerminalLine(
         text: "",
         isActiveField: true,
-        controller: TextEditingController(),
+        controller: controller,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   void _handleSubmit(int index, String value) {
     setState(() {
       final line = lines[index];
+      // Dispose the old controller before replacing the line
+      if (line.controller != null) {
+        _controllers.remove(line.controller);
+        line.controller!.dispose();
+      }
+      
       lines[index] = TerminalLine(text: value, isCommand: true);
 
       Widget output = _getCommandOutput(value);
@@ -71,11 +89,13 @@ class _HomePageState extends State<HomePage> {
       }
 
       if (value.toLowerCase() != 'clear') {
+        final controller = TextEditingController();
+        _controllers.add(controller);
         lines.add(
           TerminalLine(
             text: "",
             isActiveField: true,
-            controller: TextEditingController(),
+            controller: controller,
           ),
         );
       }
@@ -157,8 +177,14 @@ Projects show the rest.
             final Uri url = Uri.parse(
               "https://drive.google.com/file/d/17sjSU_sRBZCIcHquqqIP2t--z0Wbt914/view",
             );
-            if (await canLaunchUrl(url)) {
-              await launchUrl(url, mode: LaunchMode.platformDefault);
+            try {
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.platformDefault);
+              } else {
+                debugPrint('Could not launch $url');
+              }
+            } catch (e) {
+              debugPrint('Error launching URL: $e');
             }
           },
           child: Text(
@@ -185,9 +211,15 @@ Projects show the rest.
                   ),
                 ),
                 InkWell(
-                  onTap: () => launchUrl(
-                    Uri.parse("mailto:sudheer.kondamuri@gmail.com"),
-                  ),
+                  onTap: () async {
+                    try {
+                      await launchUrl(
+                        Uri.parse("mailto:sudheer.kondamuri@gmail.com"),
+                      );
+                    } catch (e) {
+                      debugPrint('Error launching email: $e');
+                    }
+                  },
                   child: Text(
                     "sudheer.kondamuri@gmail.com",
                     style: GoogleFonts.ubuntuMono(
@@ -212,9 +244,15 @@ Projects show the rest.
                   ),
                 ),
                 InkWell(
-                  onTap: () => launchUrl(
-                    Uri.parse("https://github.com/SudheerKondamuri"),
-                  ),
+                  onTap: () async {
+                    try {
+                      await launchUrl(
+                        Uri.parse("https://github.com/SudheerKondamuri"),
+                      );
+                    } catch (e) {
+                      debugPrint('Error launching GitHub: $e');
+                    }
+                  },
                   child: Text(
                     "github.com/SudheerKondamuri",
                     style: GoogleFonts.ubuntuMono(
@@ -239,9 +277,15 @@ Projects show the rest.
                   ),
                 ),
                 InkWell(
-                  onTap: () => launchUrl(
-                    Uri.parse("https://linkedin.com/in/sudheerkondamuri"),
-                  ),
+                  onTap: () async {
+                    try {
+                      await launchUrl(
+                        Uri.parse("https://linkedin.com/in/sudheerkondamuri"),
+                      );
+                    } catch (e) {
+                      debugPrint('Error launching LinkedIn: $e');
+                    }
+                  },
                   child: Text(
                     "linkedin.com/in/sudheerkondamuri",
                     style: GoogleFonts.ubuntuMono(
@@ -266,7 +310,13 @@ Projects show the rest.
                   ),
                 ),
                 InkWell(
-                  onTap: () => launchUrl(Uri.parse("https://x.com/sudheer")),
+                  onTap: () async {
+                    try {
+                      await launchUrl(Uri.parse("https://x.com/sudheer"));
+                    } catch (e) {
+                      debugPrint('Error launching Twitter: $e');
+                    }
+                  },
                   child: Text(
                     "x.com/sudheer",
                     style: GoogleFonts.ubuntuMono(
@@ -329,6 +379,17 @@ Projects show the rest.
       case 'banner':
         return _asciiBanner();
       case 'clear':
+        // Dispose old controllers from lines that will be replaced
+        for (final line in lines) {
+          if (line.controller != null && _controllers.contains(line.controller)) {
+            _controllers.remove(line.controller);
+            line.controller!.dispose();
+          }
+        }
+        
+        final controller = TextEditingController();
+        _controllers.add(controller);
+        
         setState(() {
           lines = [
             TerminalLine(text: "Welcome to Sudheer's Terminal"),
@@ -337,7 +398,7 @@ Projects show the rest.
             TerminalLine(
               text: "",
               isActiveField: true,
-              controller: TextEditingController(),
+              controller: controller,
             ),
           ];
         });
@@ -360,7 +421,13 @@ Projects show the rest.
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
-          onTap: () => launchUrl(Uri.parse(url)),
+          onTap: () async {
+            try {
+              await launchUrl(Uri.parse(url));
+            } catch (e) {
+              debugPrint('Error launching project URL: $e');
+            }
+          },
           child: Text(
             title,
             style: GoogleFonts.ubuntuMono(
@@ -409,7 +476,7 @@ Projects show the rest.
                     ],
                   ),
                   child: SelectableRegion(
-                    selectionControls: MaterialTextSelectionControls(),
+                    selectionControls: materialTextSelectionControls,
                     child: Column(
                       children: [
                         Container(
